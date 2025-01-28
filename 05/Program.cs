@@ -24,13 +24,14 @@ string GenerateMD5Hash(string input)
 
 void part1()
 {
-  int ans = 0;
   int i = 1;
   string password = "";
-  while(password.Length < 8) {
-    string md5 = GenerateMD5Hash(puzzle+i.ToString());
-    if (md5.StartsWith("00000")) {
-      password += md5.Substring(5,1);
+  while (password.Length < 8)
+  {
+    string md5 = GenerateMD5Hash(puzzle + i.ToString());
+    if (md5.StartsWith("00000"))
+    {
+      password += md5.Substring(5, 1);
     }
     i++;
   }
@@ -39,8 +40,29 @@ void part1()
 
 void part2()
 {
-  int ans = 0;
-  Console.WriteLine($"Part 2 - Answer : {ans}");
+  int i = 1;
+  string password = "        ";
+  HashSet<int> seen = [];
+  while (seen.Count < 8)
+  {
+    string md5 = GenerateMD5Hash(puzzle + i.ToString());
+    if (md5.StartsWith("00000"))
+    {
+      int position = 0;
+      if (int.TryParse(md5.Substring(5, 1),out position))
+      if (position >= 0 && position < 8)
+      {
+        if (!seen.Contains(position))
+        {
+          seen.Add(position);
+          string c = md5.Substring(6, 1).ToString();
+          password = password.Remove(position,1).Insert(position,c);
+        }
+      }
+    }
+    i++;
+  }
+  Console.WriteLine($"Part 2 - Answer : {password}");
 }
 
 part1();
