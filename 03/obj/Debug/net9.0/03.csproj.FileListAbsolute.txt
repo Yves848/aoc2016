@@ -1,0 +1,15 @@
+C:\Users\Yves\git\aoc2016\03\bin\Debug\net9.0\03.exe
+C:\Users\Yves\git\aoc2016\03\bin\Debug\net9.0\03.deps.json
+C:\Users\Yves\git\aoc2016\03\bin\Debug\net9.0\03.runtimeconfig.json
+C:\Users\Yves\git\aoc2016\03\bin\Debug\net9.0\03.dll
+C:\Users\Yves\git\aoc2016\03\bin\Debug\net9.0\03.pdb
+C:\Users\Yves\git\aoc2016\03\obj\Debug\net9.0\03.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Yves\git\aoc2016\03\obj\Debug\net9.0\03.AssemblyInfoInputs.cache
+C:\Users\Yves\git\aoc2016\03\obj\Debug\net9.0\03.AssemblyInfo.cs
+C:\Users\Yves\git\aoc2016\03\obj\Debug\net9.0\03.csproj.CoreCompileInputs.cache
+C:\Users\Yves\git\aoc2016\03\obj\Debug\net9.0\03.sourcelink.json
+C:\Users\Yves\git\aoc2016\03\obj\Debug\net9.0\03.dll
+C:\Users\Yves\git\aoc2016\03\obj\Debug\net9.0\refint\03.dll
+C:\Users\Yves\git\aoc2016\03\obj\Debug\net9.0\03.pdb
+C:\Users\Yves\git\aoc2016\03\obj\Debug\net9.0\03.genruntimeconfig.cache
+C:\Users\Yves\git\aoc2016\03\obj\Debug\net9.0\ref\03.dll
