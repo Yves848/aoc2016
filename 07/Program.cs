@@ -4,21 +4,31 @@ using System.Runtime.InteropServices;
 string home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 List<string> file = args.Length > 0 ? File.ReadAllLines(args[0]).ToList() : File.ReadAllLines($"{home}/git/aoc2016/07/data.txt").ToList();
 var lf = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "\r\n" : "\n";
-Regex tls = new(@"\[?\w*(\w)(\w)\2\1\w*\]?");
+Regex tls = new(@"(\w)(\w)\2\1");
+Regex brackets = new(@"\[\w+\]");
 
+bool ContainsABBA(string segment)
+{
+  for (int i = 0; i < segment.Length - 3; i++)
+  {
+    if (segment[i] != segment[i + 1] && segment[i] == segment[i + 3] && segment[i + 1] == segment[i + 2])
+    {
+      return true;
+    }
+  }
+  return false;
+}
 void part1()
 {
   int ans = 0;
-  file.ForEach(line => {
-    var m = tls.Matches(line);
-    int nb = 0;
-    for(int i = 0; i < m.Count;i++) {
-      var ok = true;
-      ok = ok && (m[i].Groups[1].Value != m[i].Groups[2].Value);
-      ok = ok && !m[i].Value.Contains("[");
-      if (ok) nb++;
+  file.ForEach(line =>
+  {
+    var hypernet = brackets.Matches(line).Cast<Match>().Select(m => m.Value).ToList();
+    var net = brackets.Split(line).ToList();
+    if (!hypernet.Any(ContainsABBA))
+    {
+      if (net.Any(ContainsABBA)) ans++;
     }
-    ans += nb > 0 ? 1 : 0;
   });
   Console.WriteLine($"Part 1 - Answer : {ans}");
 }
