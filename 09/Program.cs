@@ -1,11 +1,12 @@
 ﻿using System.Text.RegularExpressions;
 using System.Runtime.InteropServices;
+using System.Linq.Expressions;
 
 string home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-List<string> file = args.Length > 0 ? File.ReadAllLines(args[0]).ToList() : File.ReadAllLines($"{home}/git/aoc2016/09/test2.txt").ToList();
+List<string> file = args.Length > 0 ? File.ReadAllLines(args[0]).ToList() : File.ReadAllLines($"{home}/git/aoc2016/09/data.txt").ToList();
 var lf = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "\r\n" : "\n";
-Regex re = new(@"(\d+)x(\d+)");
-string puzzle = file[3];
+Regex re = new(@"\((\d+)x(\d+)\)");
+string puzzle = file[0];
 
 void part1()
 {
@@ -134,47 +135,50 @@ string decompress2(string compressed)
 void part2()
 {
   long ans = 0;
-  string temp = "";
-  bool repeat = false;
-  string result = "";
-  int nb = 0;
-  int t = 1;
-  int i = 0;
-  string comp = puzzle;
-  while (i < comp.Length)
+  Stack<string> Q = [];
+  while (true)
   {
-    char c = comp[i];
-    comp = comp[1..];
-    if (c == '(')
+    string temp = "";
+    var m = re.Match(puzzle);
+    int index = m.Index;
+    int len = m.Length;
+    int nb = int.Parse(m.Groups[1].Value);
+    int t = int.Parse(m.Groups[2].Value);
+    temp += puzzle.Substring(0, index);
+    string sub = puzzle.Substring(index + len, nb);
+    Console.WriteLine($"({nb}x{t}) {sub}");
+    puzzle = puzzle.Substring(index + len + nb);
+    if (sub.Contains(")("))
     {
-      temp = "";
-      repeat = true;
-      continue;
+      Console.WriteLine($"push ({nb}x{t}) {puzzle}");
+      if (puzzle != "")
+        Q.Push(puzzle);
+      puzzle = sub;
     }
-    if (c == ')')
+    else
     {
-      var m = re.Match(temp);
-      nb = int.Parse(m.Groups[1].Value);
-      t *= int.Parse(m.Groups[2].Value);
-      temp = comp.Substring(0,nb);
-      if (comp[0] != '(') {
-        var m2 = re.Matches(temp);
-        temp = string.Concat(Enumerable.Repeat(temp, t));
-        repeat = false;
-        ans += temp.Length-1;
-        t = 1;
-      }
-      continue;
+      var matches = re.Matches(sub);
+      long subtotal = 0;
+      matches.ToList().ForEach(ma =>
+      {
+        int nb1 = int.Parse(ma.Groups[1].Value);
+        int t1 = int.Parse(ma.Groups[2].Value);
+        subtotal += (nb1*t1);
+        Console.WriteLine($"   ({nb1}x{t1}) {sub.Substring(ma.Index + ma.Length, nb1)}");
+      });
+      ans += t*subtotal;
     }
-    if (repeat)
+    if (puzzle == "")
     {
-      temp += c.ToString();
+      while (puzzle == "" && Q.Count > 0)
+        puzzle = Q.Pop();
+      Console.WriteLine($"pop {Q.Count}");
     }
-    else ans++;
+    if (puzzle == "") break;
   }
   Console.WriteLine($"Part 2 - Answer : {ans}");
 }
 
-part1();
+//part1();
 
 part2();
