@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Yves\\git\\aoc2016\\09\\09.csproj": {}
+    "c:\\Users\\Yves\\git\\aoc2016\\09\\09.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Yves\\git\\aoc2016\\09\\09.csproj": {
+    "c:\\Users\\Yves\\git\\aoc2016\\09\\09.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Yves\\git\\aoc2016\\09\\09.csproj",
+        "projectUniqueName": "c:\\Users\\Yves\\git\\aoc2016\\09\\09.csproj",
         "projectName": "09",
-        "projectPath": "C:\\Users\\Yves\\git\\aoc2016\\09\\09.csproj",
+        "projectPath": "c:\\Users\\Yves\\git\\aoc2016\\09\\09.csproj",
         "packagesPath": "C:\\Users\\Yves\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Yves\\git\\aoc2016\\09\\obj\\",
+        "outputPath": "c:\\Users\\Yves\\git\\aoc2016\\09\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
