@@ -1,6 +1,8 @@
-$puzzle = "(25x3)(3x3)ABC(2x3)XY(5x2)PQRSTX(18x9)(3x2)TWO(5x7)SEVEN"
+$puzzle = Get-Content -Path "data.txt"
 
-$m = [regex]::Match($puzzle,"\((\d+)x(\d+)\)")
-$M | ForEach-Object {
-  $_
+while ($puzzle -ne "") {
+  $m = [regex]::Match($puzzle,"\((\d+)x(\d+)\)")
+  $temp = $puzzle.Substring(0,$m.Groups[1].Value+$m.Length)
+  $puzzle = $puzzle.substring($m.Index+$m.Length+$m.Groups[1].Value+$m.Length)
+  Write-Host "$temp"
 }
