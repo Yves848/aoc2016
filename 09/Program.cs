@@ -133,29 +133,39 @@ void part2()
   Console.WriteLine($"Part 2 - Answer : {ans}");
 }
 
-long split(string piece)
+long split(string piece, int p)
 {
   long ans = 0;
   while (piece != "")
   {
     string temp = "";
     var m = re.Match(piece);
-    int index = m.Index;
-    int len = m.Length;
-    int nb = int.Parse(m.Groups[1].Value);
-    int t = int.Parse(m.Groups[2].Value);
-    temp += piece.Substring(0, index);
-    string sub = piece.Substring(index + len, nb);
-    Console.ForegroundColor = ConsoleColor.Red;
-    Console.Write($"({nb}x{t})");
-    Console.ForegroundColor = ConsoleColor.White;
-    Console.Write($"{sub}");
-    Console.ForegroundColor = ConsoleColor.Blue;
-    Console.WriteLine($" {sub.Length}");
-    piece = piece.Substring(index + len + nb);
-    ans += split(sub);
+    if (m.Success)
+    {
+      int index = m.Index;
+      int len = m.Length;
+      int nb = int.Parse(m.Groups[1].Value);
+      int t = int.Parse(m.Groups[2].Value);
+      temp += piece.Substring(0, index);
+      string sub = piece.Substring(index + len, nb);
+      Console.ForegroundColor = ConsoleColor.Red;
+      Console.Write($"({nb}x{t})");
+      Console.ForegroundColor = ConsoleColor.White;
+      Console.Write($"{sub}");
+      Console.ForegroundColor = ConsoleColor.Blue;
+      Console.WriteLine($" {sub.Length}");
+      piece = piece.Substring(index + len + nb);
+      ans += split(sub,t)*p;
+    }
+    else
+    {
+      Console.ForegroundColor = ConsoleColor.DarkRed;
+      Console.WriteLine($"{piece}");
+      ans = piece.Length * p;
+      piece = "";
+    }
   }
-  Console.WriteLine(ans);
+  // Console.WriteLine(ans);
   return ans;
 }
 
@@ -163,4 +173,4 @@ long split(string piece)
 
 // part2();
 
-split(puzzle);
+Console.WriteLine(split(puzzle,1));
