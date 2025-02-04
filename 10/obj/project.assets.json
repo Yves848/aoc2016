@@ -8,23 +8,23 @@
     "net9.0": []
   },
   "packageFolders": {
-    "C:\\Users\\yvesg\\.nuget\\packages\\": {},
+    "C:\\Users\\Yves\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\yvesg\\git\\aoc2016\\10\\10.csproj",
+      "projectUniqueName": "C:\\Users\\Yves\\git\\aoc2016\\10\\10.csproj",
       "projectName": "10",
-      "projectPath": "C:\\Users\\yvesg\\git\\aoc2016\\10\\10.csproj",
-      "packagesPath": "C:\\Users\\yvesg\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\yvesg\\git\\aoc2016\\10\\obj\\",
+      "projectPath": "C:\\Users\\Yves\\git\\aoc2016\\10\\10.csproj",
+      "packagesPath": "C:\\Users\\Yves\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Yves\\git\\aoc2016\\10\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\yvesg\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Yves\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
