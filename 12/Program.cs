@@ -8,7 +8,7 @@ var lf = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "\r\n" : "\n";
 Dictionary<string, int> registers = new Dictionary<string, int>() {
   {"a",0},
   {"b",0},
-  {"c",0},
+  {"c",1},
   {"d",0}
 };
 
@@ -41,11 +41,11 @@ void part1()
       case "cpy":
         if (int.TryParse(a, out val))
         {
-          registers[b] += val;
+          registers[b] = val;
         }
         else
         {
-          registers[b] += registers[a];
+          registers[b] = registers[a];
         }
         break;
       case "inc":
