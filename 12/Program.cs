@@ -8,7 +8,7 @@ var lf = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "\r\n" : "\n";
 Dictionary<string, int> registers = new Dictionary<string, int>() {
   {"a",0},
   {"b",0},
-  {"c",1},
+  {"c",1}, // 0 = part 1   - 1 = Part 2
   {"d",0}
 };
 
