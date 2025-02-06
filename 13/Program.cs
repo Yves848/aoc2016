@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using System.IO.Pipelines;
 using System.Security.Cryptography.X509Certificates;
 using System.Net;
+using System.Reflection.Metadata.Ecma335;
 
 string home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 int puzzle = args.Length > 0 ? 1358 : 10;
@@ -59,6 +60,28 @@ void printWay(List<(int x, int y)> ways)
     Console.CursorVisible = true;
 }
 
+List<(int x,int y)> parse(List<(int x, int y)> route)
+{
+    var (x, y) = route.Last();
+    int d = 0;
+    bool possible = false;
+    while (d < dirs.Count)
+    {
+        var (dx, dy) = dirs[d];
+        while (!route.Contains((x + dx, y + dy)) && x + dx >= 0 && x + dx < w && y + dy >= 0 && y + dy < h && grid[(x + dx, y + dy)] != 1)
+        {
+            //x += dx;
+            //y += dy;
+            possible = true;
+            route.Add((x + dx, y + dy));
+            parse([..route]);
+        }
+        d++;
+    }
+    Console.WriteLine(possible);
+    return route.ToList();
+}
+
 
 void part1()
 {
@@ -75,56 +98,9 @@ void part1()
     printGrid();
 
     List<(int x, int y)> way = [start];
-    Stack<List<(int x, int y)>> Q = [];
-    Q.Push([.. way]);
-    while (Q.Count > 0)
-    {
-        var temp = Q.Pop();
-        (int x, int y) coord = temp.Last();
-        int id = 0;
-        while (id < dirs.Count)
-        {
-            printGrid();
-            var d = dirs[id];
-            var (dx, dy) = d;
-            int xx = coord.x + dx;
-            int yy = coord.y + dy;
-            
-            while (!(xx < 0) && !(yy < 0) & !(xx > w - 1) && !(yy > h - 1))
-            {
-                if ((grid[(xx, yy)] == 0))
-                {
-                    if (!temp.Contains((xx, yy)))
-                    {
-                        temp.Add((xx, yy));
-                    }
-                    if (xx == 7 && yy == 4)
-                    {
-                        ways.Add(temp);
-                    }
-                    else
-                    {
-                        Q.Push([.. temp]);
-                        //break;
-                    }
-                    //// id = 0;
-                    //break;
-
-                }
-                else break;
-                
-                printWay(temp);
-                xx += dx;
-                yy += dy;
-            }
-            id++;
-        };
-    }
-
+    parse([..way]);
     Console.WriteLine();
-
     ans = ways.Count;
-
     Console.WriteLine($"Part 1 - Answer : {ans}");
 }
 
