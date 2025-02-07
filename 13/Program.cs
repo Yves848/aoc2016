@@ -19,9 +19,11 @@ List<List<(int x, int y)>> ways = [];
 HashSet<(int x, int y)> seen = [];
 
 Dictionary<(int x, int y), int> grid = [];
-puzzle = 10;
-int h = 7;
-int w = 10;
+Dictionary<(int x, int y), int> grid2 = [];
+puzzle = 1358;
+int h = 45;
+int w = 45;
+(int x, int y) dest = (31, 39);
 bool isWall(int x, int y)
 {
     bool result = false;
@@ -41,47 +43,55 @@ void printGrid()
         for (int x = 0; x < w; x++)
         {
             Console.SetCursorPosition(x + 1, y + 1);
-            Console.Write(grid[(x, y)] == 1 ? "#" : ".");
+            Console.Write(grid2[(x, y)] == 1 ? "#" : ".");
         }
     }
     Console.CursorVisible = true;
 }
 
-void printWay(List<(int x, int y)> ways)
+void printWay(List<(int x, int y)> pways)
 {
     Console.CursorVisible = false;
-    ways.ToList().ForEach(way =>
+    pways.ToList().ForEach(way =>
     {
         Console.ForegroundColor = ConsoleColor.Blue;
         Console.SetCursorPosition(way.x + 1, way.y + 1);
         Console.Write('O');
+        Thread.Sleep(10);
     });
     Console.ForegroundColor = ConsoleColor.White;
+    Thread.Sleep(100);
     Console.CursorVisible = true;
 }
 
-List<(int x,int y)> parse(List<(int x, int y)> route)
+void parse((int x, int y) coord, Stack<(int x, int y)> stack)
 {
-    var (x, y) = route.Last();
-    int d = 0;
-    bool possible = false;
-    while (d < dirs.Count)
-    {
-        var (dx, dy) = dirs[d];
-        while (!route.Contains((x + dx, y + dy)) && x + dx >= 0 && x + dx < w && y + dy >= 0 && y + dy < h && grid[(x + dx, y + dy)] != 1)
-        {
-            //x += dx;
-            //y += dy;
-            possible = true;
-            route.Add((x + dx, y + dy));
-            parse([..route]);
-        }
-        d++;
-    }
-    Console.WriteLine(possible);
-    return route.ToList();
-}
+    (int x, int y) = coord;
+    if (x < 0 || x > w - 1 || y < 0 || y > h - 1 || grid[(x, y)] == 1) return;
 
+    if (coord == dest)
+    {
+        stack.Push(coord);
+        ways.Add([.. stack.ToList()]);
+        printGrid();
+        printWay(ways.Last());
+        stack.Pop();
+        return;
+    }
+
+    var temp = grid[(x, y)];
+    grid[(x, y)] = 1;
+    stack.Push(coord);
+
+    foreach (var dir in dirs.ToList())
+    {
+        var (dx, dy) = dir;
+        parse((x + dx, y + dy), stack);
+    }
+
+    grid[(x, y)] = temp;
+    stack.Pop();
+}
 
 void part1()
 {
@@ -93,15 +103,36 @@ void part1()
         for (int x = 0; x < w; x++)
         {
             grid.Add((x, y), isWall(x, y) ? 1 : 0);
+            grid2.Add((x, y), isWall(x, y) ? 1 : 0);
         }
     }
-    printGrid();
+    //printGrid();
 
-    List<(int x, int y)> way = [start];
-    parse([..way]);
-    Console.WriteLine();
-    ans = ways.Count;
+    Stack<(int x, int y)> Q = [];
+
+    //Q.Push(start);
+    parse(start, Q);
+    //ways.Sort();
+    ans = int.MaxValue;
+    HashSet<(int, int)> visited = new HashSet<(int, int)>();
+    foreach (var item in ways.ToList())
+    {
+        item.Reverse();
+        foreach (var item1 in item)
+        {
+            visited.Add(item1);
+
+        }
+
+        if (item.Count - 1 < ans)
+        {
+            ans = item.Count - 1;
+        }
+    }
+    Console.SetCursorPosition(0, Console.BufferHeight - 4);
     Console.WriteLine($"Part 1 - Answer : {ans}");
+    ans = visited.Count;
+    Console.WriteLine($"Part 2 - Answer : {ans}");
 }
 
 void part2()
