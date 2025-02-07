@@ -20,6 +20,7 @@ HashSet<(int x, int y)> seen = [];
 
 Dictionary<(int x, int y), int> grid = [];
 Dictionary<(int x, int y), int> grid2 = [];
+HashSet<(int, int)> visited = new HashSet<(int, int)>();
 puzzle = 1358;
 int h = 45;
 int w = 45;
@@ -73,8 +74,8 @@ void parse((int x, int y) coord, Stack<(int x, int y)> stack)
     {
         stack.Push(coord);
         ways.Add([.. stack.ToList()]);
-        printGrid();
-        printWay(ways.Last());
+        //printGrid();
+        //printWay(ways.Last());
         stack.Pop();
         return;
     }
@@ -82,6 +83,7 @@ void parse((int x, int y) coord, Stack<(int x, int y)> stack)
     var temp = grid[(x, y)];
     grid[(x, y)] = 1;
     stack.Push(coord);
+    if (stack.Count <= 51) visited.Add(coord);
 
     foreach (var dir in dirs.ToList())
     {
@@ -114,16 +116,9 @@ void part1()
     parse(start, Q);
     //ways.Sort();
     ans = int.MaxValue;
-    HashSet<(int, int)> visited = new HashSet<(int, int)>();
+    
     foreach (var item in ways.ToList())
     {
-        item.Reverse();
-        foreach (var item1 in item)
-        {
-            visited.Add(item1);
-
-        }
-
         if (item.Count - 1 < ans)
         {
             ans = item.Count - 1;
