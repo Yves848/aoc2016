@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using System.Runtime.InteropServices;
-using System.Reflection.PortableExecutable;
+
 
 string init = "";
 int size = 0;
@@ -10,7 +10,7 @@ Regex re = MyRegex();
 if (args.Length > 0)
 {
   init = "10111100110001111";
-  size = 272;
+  size = 35651584;
 }
 else
 {
@@ -18,31 +18,41 @@ else
   size = 20;
 }
 
-
+init = "10111100110001111";
+size = 35651584;
 
 void part1()
 {
   int ans = 0;
+
   while (init.Length < size)
   {
-    string a = init;
-    string b = "";
-    for (int i = a.Length - 1; i >= 0; i--)
+    Span<char> b = init.Replace('0','#').Replace('1','0').Replace('#','1').ToArray();
+    b.Reverse();
+    init = init + "0" + new string(b);
+    Console.WriteLine($"Size : {init.Length}");
+  }
+  // a = a.Substring(0, size);
+  Console.WriteLine("Beginning Checksum");
+  Span<char> checksum = init.ToArray();
+  Span<char> t = checksum.Slice(0,size);
+  while (t.Length % 2 == 0)
+  {
+    string temp = "";
+    for (int i = 0; i < t.Length; i += 2)
     {
-      b += a[i];
+      if (t[i] == t[i + 1])
+      {
+        temp += "1";
+      }
+      else
+      {
+        temp += "0";
+      }
     }
-    init = a + "0" + b.Replace('0', 'x').Replace('1', 'y').Replace('x', '1').Replace('y', '0');
+    t = temp.ToArray();
   }
-  init = init.Substring(0,size);
-  string cheksum = init;
-  while (cheksum.Length % 2 == 0) {
-    var m = re.Matches(cheksum);
-    cheksum = "";
-    m.ToList().ForEach(chk => {
-      cheksum += chk.Value;
-    });
-  }
-  Console.WriteLine(cheksum);
+  Console.WriteLine(new string(checksum));
   Console.WriteLine($"Part 1 - Answer : {ans}");
 }
 
@@ -57,6 +67,6 @@ part1();
 part2();
 partial class Program
 {
-    [GeneratedRegex(@"([1|0])\1")]
-    private static partial Regex MyRegex();
+  [GeneratedRegex(@"([1|0])\1")]
+  private static partial Regex MyRegex();
 }
