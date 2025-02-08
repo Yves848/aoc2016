@@ -27,32 +27,30 @@ void part1()
 
   while (init.Length < size)
   {
-    Span<char> b = init.Replace('0','#').Replace('1','0').Replace('#','1').ToArray();
+    Span<char> b = init.Replace('0', '#').Replace('1', '0').Replace('#', '1').ToArray();
     b.Reverse();
     init = init + "0" + new string(b);
     Console.WriteLine($"Size : {init.Length}");
   }
   // a = a.Substring(0, size);
   Console.WriteLine("Beginning Checksum");
-  Span<char> checksum = init.ToArray();
-  Span<char> t = checksum.Slice(0,size);
+  Span<char> checksum = init.ToCharArray(); // Still needed, but manageable
+  char[] buffer = new char[size / 2];
+
+  Span<char> t = checksum.Slice(0, size);
+
   while (t.Length % 2 == 0)
   {
-    string temp = "";
-    for (int i = 0; i < t.Length; i += 2)
+    int newSize = t.Length / 2;
+
+    for (int i = 0; i < newSize; i++)
     {
-      if (t[i] == t[i + 1])
-      {
-        temp += "1";
-      }
-      else
-      {
-        temp += "0";
-      }
+      buffer[i] = (t[i * 2] == t[i * 2 + 1]) ? '1' : '0';
     }
-    t = temp.ToArray();
+
+    t = buffer.AsSpan(0, newSize);
   }
-  Console.WriteLine(new string(checksum));
+  Console.WriteLine(new string(t));
   Console.WriteLine($"Part 1 - Answer : {ans}");
 }
 
