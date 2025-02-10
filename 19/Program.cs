@@ -5,86 +5,95 @@ string home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 int size = 0;
 if (args.Length > 0)
 {
-  size = 3001330;
+    size = 3001330;
 }
 else
 {
-  size = 5;
+    size = 5;
 }
-
+//size = 3001330;
 void part1()
 {
-  int ans = 0;
-  (int index, int nb)[] puzzle = new (int, int)[size];
-  for (int i = 0; i < size; i++)
-  {
-    puzzle[i] = (i + 1, 1);
-  }
-  while (puzzle.Length > 1)
-  {
-    int i = 0;
-    int i2;
-    while (i < puzzle.Length)
+    int ans = 0;
+    (int index, int nb)[] puzzle = new (int, int)[size];
+    for (int i = 0; i < size; i++)
     {
-      if (puzzle[i].nb != 0)
-      {
-        i2 = (i == puzzle.Length - 1) ? 0 : i + 1;
-        puzzle[i].nb += puzzle[i2].nb;
-        puzzle[i2].nb = 0;
-      }
-      i++;
+        puzzle[i] = (i + 1, 1);
     }
-    puzzle = [.. puzzle.Where(i => i.nb != 0)];
-  }
-  ans = puzzle[0].index;
-  Console.WriteLine($"Part 1 - Answer : {ans}");
+    while (puzzle.Length > 1)
+    {
+        int i = 0;
+        int i2;
+        while (i < puzzle.Length)
+        {
+            if (puzzle[i].nb != 0)
+            {
+                i2 = (i == puzzle.Length - 1) ? 0 : i + 1;
+                puzzle[i].nb += puzzle[i2].nb;
+                puzzle[i2].nb = 0;
+            }
+            i++;
+        }
+        puzzle = [.. puzzle.Where(i => i.nb != 0)];
+    }
+    ans = puzzle[0].index;
+    Console.WriteLine($"Part 1 - Answer : {ans}");
 }
 
 void part2()
 {
-  int ans = 0;
-  (int index, int nb)[] puzzle = new (int, int)[size];
-  for (int i = 0; i < size; i++)
-  {
-    puzzle[i] = (i + 1, 1);
-  }
-  int index = 0;
-  while (puzzle.Length > 1)
-  {
-    int i2;
-    if (puzzle.Length % 2 == 0)
+    int ans = 0;
+    (int index, int nb)[] puzzle = new (int, int)[size];
+    for (int i = 0; i < size; i++)
     {
-      // nombre pair
-      if (index > puzzle.Length)
-      {
-        i2 = (int)Math.Floor(Convert.ToDouble(puzzle.Length) / 2)+index;
-      }
-      else
-      {
-        i2 = (puzzle.Length / 2) + index;
-      }
+        puzzle[i] = (i + 1, 1);
     }
-    else
+    while (puzzle.Length > 1)
     {
-      // nombre impair
-      if (index >= puzzle.Length)
-      {
-        i2 = puzzle.Length % puzzle.Length / 2;
-      }
-      else
-      {
-        i2 = (int)Math.Floor(Convert.ToDouble(puzzle.Length) / 2)+index;
-        if (i2 >= puzzle.Length) i2 = i2 % puzzle.Length;
-      }
+        int index = 0;
+        int i2;
+        while (index < puzzle.Length)
+        {
+            if (puzzle[index].nb != 0)
+            {
+                if (puzzle.Length % 2 == 0)
+                {
+                    // nombre pair
+                    if (index > puzzle.Length)
+                    {
+                        i2 = (int)Math.Floor(Convert.ToDouble(puzzle.Length) / 2) + index;
+                    }
+                    else
+                    {
+                        i2 = (puzzle.Length / 2) + index;
+                    }
+                    if (i2 >= puzzle.Length) i2 = i2 % puzzle.Length;
+                }
+                else
+                {
+                    // nombre impair
+                    if (index >= puzzle.Length)
+                    {
+                        i2 = puzzle.Length % puzzle.Length / 2;
+                    }
+                    else
+                    {
+                        i2 = (int)Math.Floor(Convert.ToDouble(puzzle.Length) / 2) + index;
+                    }
+                    if (i2 >= puzzle.Length) i2 = i2 % puzzle.Length;
+                }
+                puzzle[index].nb += puzzle[i2].nb;
+                puzzle[i2].nb = 0;
+            }
+            index++;
+        }
+        puzzle = [.. puzzle.Where(i => i.nb != 0)];
+        if (index > puzzle.Length) index = 0;
+        if (index % 10000 == 0)
+            Console.WriteLine(puzzle.Length);
     }
-    puzzle[index].nb += puzzle[i2].nb;
-    puzzle[i2].nb = 0;
-    index++;
-    puzzle = [.. puzzle.Where(i => i.nb != 0)];
-    if (index > puzzle.Length) index = 0;
-  }
-  ans = puzzle[0].index;
-  Console.WriteLine($"Part 2 - Answer : {ans}");
+    ans = puzzle[0].index;
+    Console.WriteLine($"Part 2 - Answer : {ans}");
 }
 
 part1();
