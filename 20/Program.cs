@@ -12,85 +12,58 @@ Regex re = new(@"\d+");
 
 void part1()
 {
-  uint ans = 0;
-  file.ForEach(line =>
-  {
-    var m = re.Matches(line);
-    uint b1 = uint.Parse(m[0].Value);
-    uint b2 = uint.Parse(m[1].Value);
-    bornes.Add((b1, b2));
-  });
-  bornes.Sort();
-  int i = 0;
-  while (i < bornes.Count - 1)
-  {
-    var (min, max) = bornes[i];
-    if (ans >= min && ans <= max)
+    uint ans = 0;
+    file.ForEach(line =>
     {
-      i++;
-      ans = max + 1;
-      // if (i == bornes.Count) break;
-      continue;
+        var m = re.Matches(line);
+        uint b1 = uint.Parse(m[0].Value);
+        uint b2 = uint.Parse(m[1].Value);
+        bornes.Add((b1, b2));
+    });
+    bornes.Sort();
+    int i = 0;
+    while (i < bornes.Count - 1)
+    {
+        var (min, max) = bornes[i];
+        if (ans >= min && ans <= max)
+        {
+            i++;
+            ans = max + 1;
+            // if (i == bornes.Count) break;
+            continue;
+        }
+        i++;
     }
-    i++;
-  }
-  Console.WriteLine($"Part 1 - Answer : {ans}");
+    Console.WriteLine($"Part 1 - Answer : {ans}");
 }
 
 void part2()
 {
-  uint ans = 0;
-  // bornes.Clear();
-  // file.ForEach(line =>
-  // {
-  //   var m = re.Matches(line);
-  //   uint b1 = uint.Parse(m[0].Value);
-  //   uint b2 = uint.Parse(m[1].Value);
-  //   bornes.Add((b1, b2));
-  // });
-  // bornes.Sort();
-  bornes.ForEach(b =>
-  {
-    Console.WriteLine($"{b.min}-{b.max}");
-  });
-  int i = 0;
-  uint nb = 0;
-  var (min, max) = bornes[i];
-  while (ans <= uint.MaxValue)
-  {
-    if (ans > max)
+    uint ans = 0;
+    bornes.ForEach(b =>
     {
-      i++;
-      ans = max + 1;
-      if (i < bornes.Count)
-      {
+        Console.WriteLine($"{b.min}-{b.max}");
+    });
+    int i = 0;
+    uint nb = 0;
+    var (min, max) = bornes[i];
+    while (i < bornes.Count - 1)
+    {
+        i++;
         var (m1, m2) = bornes[i];
-        if (ans < m1)
+        if (m1 > max && m2 > min)
         {
-          nb++;
+            nb += m1 - max;
+            min = m1;
+            max = m2;
+
         }
-        if (m1 >= max || m1 >= min)
-          min =  m1;
-        max = Math.Max(max, m2);
-        continue;
-      }
-      else
-      {
-        nb += uint.MaxValue - max;
-        break;
-      }
     }
-    else
+    if (max < uint.MaxValue)
     {
-      if (ans < min)
-      {
-        nb++;
-        ans++;
-      }
-      else ans = max+1;
+        nb += uint.MaxValue - max;
     }
-  }
-  Console.WriteLine($"Part 2 - Answer : {nb}");
+    Console.WriteLine($"Part 2 - Answer : {nb}");
 }
 
 part1();
