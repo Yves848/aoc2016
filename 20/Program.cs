@@ -1,6 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using System.Runtime.InteropServices;
 using System.Diagnostics.CodeAnalysis;
+using System.ComponentModel;
 
 string home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 List<string> file = args.Length > 0 ? File.ReadAllLines(args[0]).ToList() : File.ReadAllLines($"{home}/git/aoc2016/20/data.txt").ToList();
@@ -40,28 +41,31 @@ void part1()
 void part2()
 {
     uint ans = 0;
-    bornes.ForEach(b =>
-    {
-        Console.WriteLine($"{b.min}-{b.max}");
-    });
+    // bornes.ForEach(b =>
+    // {
+    //     Console.WriteLine($"{b.min}-{b.max}");
+    // });
     int i = 0;
     uint nb = 0;
     var (min, max) = bornes[i];
     while (i < bornes.Count - 1)
     {
         i++;
-        var (m1, m2) = bornes[i];
-        if (m1 > max && m2 > min)
-        {
-            nb += m1 - max;
+        var (m1,m2) = bornes[i];
+        if (m1 > max) {
+            nb += (m1-max)-1;
             min = m1;
             max = m2;
-
+        } else {
+            if (m1 > min && m1 < max) {
+                min = m1;
+            }
+            if (m2 > max) max = m2;
         }
     }
     if (max < uint.MaxValue)
     {
-        nb += uint.MaxValue - max;
+        nb += uint.MaxValue - max -1;
     }
     Console.WriteLine($"Part 2 - Answer : {nb}");
 }
